@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_938877_fetch.fetchUtils</api_name>
+        <caller_access/>
+        <client_callable>true</client_callable>
+        <description/>
+        <name>fetchUtils</name>
+        <script><![CDATA[var fetchUtils = Class.create();
+fetchUtils.prototype = Object.extendsObject(global.AbstractAjaxProcessor, {
+
+createDog: function(){
+
+var dogName = this.getParameter('sysparm_dog_name');
+var dogAge = this.getParameter('sysparm_dog_age');
+var dogShots = this.getParameter('sysparm_dog_shots');
+var dogNeutered = this.getParameter('sysparm_dog_neutered');
+//insert dog 
+var newDog = new GlideRecord('x_938877_fetch_dogs');
+newDog.newRecord();
+newDog.name = dogName;
+newDog.age = dogAge;
+if(dogShots){
+newDog.shots = true;
+}
+if(dogNeutered){
+
+newDog.neutered = true;
+
+}
+var dogNumber = newDog.number.getDisplayValue();
+var sysID = newDog.insert();
+var dogLink = newDog.getLink();
+// return values
+return dogName + '|' + dogNumber + '|' + dogLink;
+
+},
+
+createEmailNotification: function(){
+
+var adopterEmail = this.getParameter('sysparm_adopter_email');
+var adoptionCentre = this.getParameter('sysparm_adoption_centre');
+var adoptionCentreEmail = ' ';
+var ac = new GlideRecord('x_938877_fetch_adoption_centre');
+ac.get(adoptionCentre);
+adoptionCentreEmail = ac.email.getDisplayValue();
+gs.eventQueue('x_938877_fetch.adoption_email', ac, adoptionCentreEmail,adopterEmail);
+return;
+
+},
+
+    type: 'fetchUtils'
+});]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2024-04-26 21:27:19</sys_created_on>
+        <sys_id>0132153197bd8250e15871571153afe5</sys_id>
+        <sys_mod_count>7</sys_mod_count>
+        <sys_name>fetchUtils</sys_name>
+        <sys_package display_value="Fetch" source="x_938877_fetch">c0a06c7c973d4e10e15871571153af5a</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Fetch">c0a06c7c973d4e10e15871571153af5a</sys_scope>
+        <sys_update_name>sys_script_include_0132153197bd8250e15871571153afe5</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2024-04-27 14:55:58</sys_updated_on>
+    </sys_script_include>
+</record_update>
